@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class TransactionIO {
 
-    private String FILE_NAME;
+    private String FILE_NAME = "expense.txt";
     private File file;
 
     public static void bulkInsert(ArrayList<Transaction> transactions) throws IOException {
@@ -28,7 +28,7 @@ public class TransactionIO {
     }
 
     public static ArrayList<Transaction> findAll() throws IOException {
-        final String filename = "expense.txt";
+        final String filename = "./expense.txt";
         File file = new File(filename);
         Scanner input = new Scanner(file);
         ArrayList<Transaction> transactionList = new ArrayList<>();
