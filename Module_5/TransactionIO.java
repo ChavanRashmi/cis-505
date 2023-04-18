@@ -33,24 +33,17 @@ public class TransactionIO {
 
     public static ArrayList<Transaction> findAll() throws IOException {
         final String filename = "Module_5/expense.txt";
-        System.out.println("Reading file: " +filename);
         File file = new File(filename);
         Scanner input = new Scanner(file);
         input.useDelimiter(",");
 
         ArrayList<Transaction> transactionList = new ArrayList<>();
         Transaction transaction = null;
-        String date = "";
-        String description = "";
-        String amount = "";
 
         while(input.hasNextLine()) {
-            System.out.println("Data found in file: " +filename);
-            date = input.next();
-            description = input.next();
-            amount = input.next();
-            transaction = new Transaction(date,description,Double.valueOf(amount));
-            System.out.println("Reading transaction :\n"+transaction);
+            String value = input.nextLine();
+            String[] lineArray = value.split(",");
+            transaction = new Transaction(lineArray[0],lineArray[1],Double.valueOf(lineArray[2]));
             transactionList.add(transaction);
         }
         return transactionList;
