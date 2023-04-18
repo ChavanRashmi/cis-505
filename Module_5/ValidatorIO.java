@@ -22,8 +22,8 @@ public class ValidatorIO {
     }
 
     // getDouble method
-    public static int getDouble(Scanner sc, String prompt) {
-        int input = 0;
+    public static double getDouble(Scanner sc, String prompt) {
+        double input = 0.0;
         boolean isValid = false;
         while(!isValid) {
             System.out.println(prompt);
@@ -39,13 +39,13 @@ public class ValidatorIO {
     }
 
     // getString method
-    public static int getString(Scanner sc, String prompt) {
-        int input = 0;
+    public static String getString(Scanner sc, String prompt) {
+        String input = "";
         boolean isValid = false;
         while(!isValid) {
             System.out.println(prompt);
             if(sc.hasNext()) {
-                input = sc.nextInt();
+                input = sc.next();
                 isValid = true;
             } else {
                 System.out.println("\n Error! Invalid string value");
