@@ -95,6 +95,7 @@ public class ChavanRashmiFutureValueApp extends Application {
         actionBtnContainer.getChildren().addAll(lblYears, combo);
 
         StackPane layout  = new StackPane();
+        layout.getChildren().add(gridPane);
 
         Scene scene = new Scene(layout, 300, 250);
         primaryStage.setScene(scene);
