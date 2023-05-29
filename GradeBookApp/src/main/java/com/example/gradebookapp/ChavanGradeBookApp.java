@@ -1,114 +1,107 @@
 package com.example.gradebookapp;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.HPos;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
-import javafx.stage.Stage;
-import java.io.IOException;
-import javafx.scene.layout.StackPane;
-import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.scene.Group;
-import javafx.stage.Stage;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 
 public class ChavanGradeBookApp extends Application {
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) {
+        primaryStage.setTitle("JavaFX Tax Calculator");
+        GridPane pane = new GridPane();
+        pane.setAlignment(Pos.CENTER);
+        pane.setHgap(10);
+        pane.setVgap(10);
+        pane.setPadding(new Insets(25, 25, 25, 25));
+        Scene scene = new Scene(pane, 300, 275);
 
-        primaryStage.setTitle("Grade Book App");
+        Text sceneTitle = new Text("Grade Book Form");
+        sceneTitle.setFont(Font.font("Arial", FontWeight.NORMAL,20));
+        pane.add(sceneTitle, 0, 0, 2, 1);
+        Label fname = new Label("FirstName:");
+        fname.setStyle("-fx-font-family: Arial;");
+        pane.add(fname, 0, 1);
+        Label lname = new Label("LastName:");
+        lname.setStyle("-fx-font-family: Arial;");
+        pane.add(lname, 1, 0);
+        final TextField fnameField = new TextField();
+        fnameField.setStyle("-fx-font-family: Arial;");
+        pane.add(fnameField, 2, 0);
+        Label course = new Label("Course Name");
+        course.setStyle("-fx-font-family: Arial;");
+        pane.add(course,0,4);
+        final TextField lnameField = new TextField();
+        lnameField.setStyle("-fx-font-family: Arial;");
+        pane.add(lnameField, 1, 2);
+        final TextField courseName = new TextField();
+        courseName.setStyle("-fx-font-family: Arial;");
+        pane.add(courseName, 1, 3);
+        Button calculateButton = new Button("Save Data");
+        calculateButton.setStyle("-fx-font-family: Arial;");
 
-        // Creating Labels
+        ComboBox comboBox = new ComboBox();
 
-        Label lblFirstName = new Label("First Name: ");
-        Label lblLastName = new Label("Last Name: ");
-        Label lblCourseName = new Label("Course Name: ");
+        comboBox.getItems().add("A");
+        comboBox.getItems().add("B");
+        comboBox.getItems().add("C");
+        comboBox.getItems().add("D");
+        comboBox.getItems().add("E");
+        comboBox.getItems().add("F");
+        HBox comBox = new HBox(comboBox);
+        comBox.setStyle("-fx-font-family: Arial;");
+        pane.add(comBox, 1, 5);
 
-        //Creating Text Field
-        TextField textFirstName = new TextField();
+        HBox hbox = new HBox(10);
+        hbox.setAlignment(Pos.BOTTOM_RIGHT);
+        hbox.getChildren().add(calculateButton);
+        pane.add(hbox, 1, 4);
 
-        //Creating Text Field
-        TextField textLastName = new TextField();
+        final Text Message = new Text();
+        pane.add(Message, 1, 6);
 
-        // Create a Text Area
-        TextArea textArea = new TextArea();
-        textArea.setText("Enter your Course Name here: ");
-        textArea.setPrefColumnCount(15);
-        textArea.setPrefHeight(120);
-        textArea.setPrefWidth(300);
+        calculateButton.setOnAction(new EventHandler<ActionEvent>() {
 
-        // Creating a button
-       // Button btnClear = new Button("Clear");
-        Button btnCalculate = new Button("Calculate");
+            @Override
+            public void handle(ActionEvent t) {
+                String fname = fnameField.getText();
+                String lname = lnameField.getText();
+                String course = courseName.getText();
+//                fname.setStyle("-fx-font-family: Arial;");
+//                lname.setStyle("-fx-font-family: Arial;");
+//                course.setStyle("-fx-font-family: Arial;");
+                //save to file.
+                final String fileName = "grades.csv";
+                try {
+                    BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
+                    writer.write(fname+","+lname+","+course);
+                    writer.close();
+                } catch (Exception e) {
 
-        //Creating a combo box
-        ComboBox<String> combo = new ComboBox<String>();
+                }
+            }
+        });
 
-        //Setting the prompt text of the combo box
-        combo.setPromptText("Show your grade");
-
-        //Getting the observable list of the combo box
-        ObservableList<String> list = combo.getItems();
-        //Adding items to the combo box
-        list.add("A");
-        list.add("B");
-        list.add("C");
-        list.add("D");
-        list.add("E");
-        list.add("F");
-
-        GridPane gridPane = new GridPane();
-
-        gridPane.setMinSize(400, 200);
-        gridPane.setPadding(new Insets(11.5, 12.5, 13.5, 14.5));
-
-        //Setting the vertical and horizontal gaps between the columns
-        gridPane.setVgap(5.5);
-        gridPane.setHgap(5.5);
-
-        //setting the font color of the interest rate instruction to red
-       // lblInterestRateFormat.setTextFill(Color.RED);
-
-        //Add the label to the grid pane
-        gridPane.add(lblFirstName,1,2);
-        gridPane.add(lblLastName,1,2);
-        gridPane.add(lblCourseName,1,2);
-
-        //Position of the label to the right of the pane
-        GridPane.setHalignment(lblFirstName, HPos.RIGHT);
-        GridPane.setHalignment(lblLastName, HPos.RIGHT);
-        GridPane.setHalignment(lblCourseName, HPos.RIGHT);
-
-
-        HBox actionBtnContainer = new HBox(); // creating a new HBox container
-
-        actionBtnContainer.setPadding(new Insets(15,0,15,30));  // set the container padding
-        actionBtnContainer.setSpacing(10); //set the container spacing
-        actionBtnContainer.getChildren().add(btnClear); // Add btnClear to the container
-        actionBtnContainer.getChildren().add(btnCalculate); //Add btnCalculate to the container
-
-        gridPane.add(actionBtnContainer, 1,4); //Add the container to the Grid Pane
-        actionBtnContainer.getChildren().addAll(lblYears, combo);
-
-        StackPane layout  = new StackPane();
-        layout.getChildren().add(gridPane);
-        // Group group = new Group();
-        Scene scene = new Scene(layout, 500, 500);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
     public static void main(String[] args) {
-
-        launch();
+        launch(args);
     }
-}
 }

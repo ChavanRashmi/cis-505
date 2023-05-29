@@ -24,7 +24,7 @@ public class ChavanRashmiFutureValueApp extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-        primaryStage.setTitle("Tile Of the App");
+        primaryStage.setTitle("Future Value App");
 
         // Creating Labels
 
@@ -32,8 +32,6 @@ public class ChavanRashmiFutureValueApp extends Application {
         Label lblInterestRate = new Label("Interest Rate: ");
         Label lblInterestRateFormat = new Label();
         Label lblYears = new Label("Years");
-
-        //Creating a Text fields
 
         //Creating Text Filed for Monthly Payment
         TextField textMonthlyPayment = new TextField();
@@ -80,10 +78,12 @@ public class ChavanRashmiFutureValueApp extends Application {
         lblInterestRateFormat.setTextFill(Color.RED);
 
         //Add the label to the grid pane
-        gridPane.add(lblInterestRateFormat, 1,2);
+        gridPane.add(lblMonthlyPayment,1,2);
+        gridPane.add(lblInterestRate,1,2);
+        gridPane.add(lblInterestRateFormat,1,2);
 
         //Position of the label to the right of the pane
-        //GridPane.setHaligment(lblInterestRateFormat, HPos.RIGHT);
+        GridPane.setHalignment(lblInterestRateFormat, HPos.RIGHT);
 
         HBox actionBtnContainer = new HBox(); // creating a new HBox container
 
@@ -91,13 +91,15 @@ public class ChavanRashmiFutureValueApp extends Application {
         actionBtnContainer.setSpacing(10); //set the container spacing
         actionBtnContainer.getChildren().add(btnClear); // Add btnClear to the container
         actionBtnContainer.getChildren().add(btnCalculate); //Add btnCalculate to the container
+
         gridPane.add(actionBtnContainer, 1,4); //Add the container to the Grid Pane
         actionBtnContainer.getChildren().addAll(lblYears, combo);
 
         StackPane layout  = new StackPane();
         layout.getChildren().add(gridPane);
-
-        Scene scene = new Scene(layout, 300, 250);
+        layout.getChildren().add(gridPane);
+        // Group group = new Group();
+        Scene scene = new Scene(layout, 500, 500);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
