@@ -5,14 +5,12 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -36,7 +34,13 @@ public class HelloController {
     private Button clearTexts;
 
     @FXML
+    private Button LoadData;
+
+    @FXML
     private ComboBox gradeComboBox = new ComboBox();
+
+    @FXML
+    private TextArea resultTextCSV;
 
     @FXML
     void onHelloButtonClick(ActionEvent event) {
@@ -109,6 +113,30 @@ public class HelloController {
                     .map(this::convertToCSV)
                     .forEach(pw::append);
         }
+    }
+
+    // Methods to load csv file into the area
+    public void loadCSVFILE() throws IOException {
+        final String filename = "./grade.csv";
+        List<List<String>> records = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] values = line.split(",");
+                records.add(Arrays.asList(values));
+            }
+            resultTextCSV.setText(records.toString());
+            br.close();
+        } catch (Exception e) {
+            System.out.println(e);
+            resultTextCSV.setText("Could not load file");
+        }
+    }
+
+    // Method to invoke a load file method when the load grades button is clicked
+    @FXML
+    void onLoadCsvData(ActionEvent event) throws IOException {
+        loadCSVFILE();
     }
 
 }
